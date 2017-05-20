@@ -1,0 +1,5 @@
+1. maybe do multiple build types.  like buildr build-env -i env
+  - -i will be the interpolation type or template type.
+  - it will help buildr know where to pull the data to interpolate
+  - the convention for filenames could be TYPE.buildr (excluding cmd.buildr)
+  - try to make room for multiple types to combine
