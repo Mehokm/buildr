@@ -1,3 +1,0 @@
-echo "Running MYSQL container"
-
-docker run --name mysql -e MYSQL_USER={{.MYSQL_USER}} -e MYSQL_PASSWORD={{.MYSQL_PASSWORD}} -e MYSQL_DB={{.MYSQL_DB}} -d mysql/mysql-server:5.7
