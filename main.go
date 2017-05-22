@@ -21,7 +21,7 @@ type BuildrProps struct {
 
 type BuildrCmd struct {
 	Filename string
-	FileData string
+	Filedata string
 }
 
 const (
@@ -66,6 +66,8 @@ func main() {
 		fmt.Println("Generating Runfile...")
 
 		generateRunfile()
+
+		fmt.Println("Done!")
 
 		os.Exit(0)
 	default:
@@ -133,7 +135,7 @@ func getInterpolatedCmdFiles() []BuildrCmd {
 
 			cmd := BuildrCmd{
 				Filename: path,
-				FileData: string(execTemplate(envTpl, buildrEnvs)),
+				Filedata: string(execTemplate(envTpl, buildrEnvs)),
 			}
 
 			cmds = append(cmds, cmd)
@@ -152,7 +154,7 @@ func runCmds() {
 		gColor.Println(fmt.Sprintf("====> Executing script: %v ", cmd.Filename))
 		gColor.Println("--------------")
 
-		cmd := exec.Command("sh", "-c", cmd.FileData)
+		cmd := exec.Command("sh", "-c", cmd.Filedata)
 
 		cmd.Stderr = os.Stderr
 		cmd.Stdout = os.Stdout
@@ -191,5 +193,11 @@ func generateRunfile() {
 		}
 	}
 
-	fmt.Println(ioutil.WriteFile("./buildr/bin/Runfile", b.Bytes(), 0777))
+	err := ioutil.WriteFile("./buildr/bin/Runfile", b.Bytes(), 0777)
+
+	if err != nil {
+		fmt.Println(err)
+
+		os.Exit(2)
+	}
 }
