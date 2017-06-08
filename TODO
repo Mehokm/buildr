@@ -5,4 +5,5 @@
   - try to make room for multiple types to combine
 
 - Add support for .up and .down files so you can script starting and stopping services
-- Maybe in the future add support for modules/plugins 
+- Maybe in the future add support for modules/plugins
+- Do buildr up/down $filename to run individual files
