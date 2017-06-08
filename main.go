@@ -50,15 +50,21 @@ func main() {
 		os.Exit(2)
 	}
 
+	parseBuildrProperties()
+
 	switch os.Args[1] {
 	case runCmdName:
 		runCmd.Parse(os.Args[2:])
+
+		parseBuildrEnvs()
 
 		runCmds()
 
 		os.Exit(0)
 	case buildEnvCmdName:
 		buildEnvCmd.Parse(os.Args[2:])
+
+		parseBuildrEnvs()
 
 		fmt.Println("Generating Runfile...")
 
@@ -71,9 +77,6 @@ func main() {
 		fmt.Printf("%q is not valid command.\n", os.Args[1])
 		os.Exit(2)
 	}
-
-	parseBuildrProperties()
-	parseBuildrEnvs()
 }
 
 func parseBuildrProperties() {
@@ -87,7 +90,7 @@ func parseBuildrProperties() {
 }
 
 func parseBuildrEnvs() {
-	envTpl, err := template.ParseFiles(fmt.Sprintf("./buildr/%v/env.buildr", environment))
+	envTpl, err := template.ParseFiles(fmt.Sprintf("./.buildr/%v/env.buildr", environment))
 
 	if err != nil {
 		fmt.Println(err)
@@ -121,7 +124,7 @@ func execTemplate(tpl *template.Template, data interface{}) []byte {
 func getInterpolatedCmdFiles() []BuildrCmd {
 	var cmds []BuildrCmd
 
-	filepath.Walk(fmt.Sprintf("./buildr/%v/", environment), func(path string, info os.FileInfo, err error) error {
+	filepath.Walk(fmt.Sprintf("./.buildr/%v/", environment), func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -187,13 +190,13 @@ func generateRunfile() {
 
 	b.WriteString("go run *.go")
 
-	if _, err := os.Stat("./buildr/bin"); err != nil {
+	if _, err := os.Stat("./.buildr/bin"); err != nil {
 		if os.IsNotExist(err) {
-			os.Mkdir("./buildr/bin", 0777)
+			os.Mkdir("./.buildr/bin", 0777)
 		}
 	}
 
-	err := ioutil.WriteFile("./buildr/bin/Runfile", b.Bytes(), 0777)
+	err := ioutil.WriteFile("./.buildr/bin/Runfile", b.Bytes(), 0777)
 
 	if err != nil {
 		fmt.Println(err)
