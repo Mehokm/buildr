@@ -45,9 +45,6 @@ func init() {
 }
 
 func main() {
-	parseBuildrProperties()
-	parseBuildrEnvs()
-
 	if len(os.Args) <= 1 {
 		fmt.Println("must have a command.")
 		os.Exit(2)
@@ -74,6 +71,9 @@ func main() {
 		fmt.Printf("%q is not valid command.\n", os.Args[1])
 		os.Exit(2)
 	}
+
+	parseBuildrProperties()
+	parseBuildrEnvs()
 }
 
 func parseBuildrProperties() {
