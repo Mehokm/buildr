@@ -4,12 +4,12 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"html/template"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"text/template"
 
 	"github.com/fatih/color"
 	"gopkg.in/yaml.v2"
